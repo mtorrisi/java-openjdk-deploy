@@ -1,2 +1,5 @@
 *.tar.gz
 *.zip*
+jdk*
+cups*
+openjdk*
