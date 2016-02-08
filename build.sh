@@ -10,15 +10,33 @@
 # 8u66 7u51
 # in the jenkins job
 
+# we need to set the build number for the different versions. The build number corresponds to a specfic
+# version, so we can't just add a variable axis... since there are only two, we have a simple case here :
+
+# BUILD_NUMBER is an internal Jenkins variable, don't use it here.
+case ${VERSION} in
+  8u66 )
+    export BUILD=17
+    ;;
+  7u80 )
+    export BUILD=15
+    ;;
+  * )
+    echo "invalid version number ${VERSION}"
+    exit 2
+    ;;
+esac
+
+echo "build number is ${BUILD_NUMBER}"
 SOURCE_FILE=${NAME}-${VERSION}-linux-x64.tar.gz
 module load ci
 mkdir -p ${SRC_DIR}
-echo "getting the file from gnu.org mirror"
+echo "getting the file from Oracle"
 
 if [ ! -e ${SRC_DIR}/${SOURCE_FILE}.lock ] && [ ! -s ${SRC_DIR}/${SOURCE_FILE} ] ; then
 # claim the download
   touch  ${SRC_DIR}/${SOURCE_FILE}.lock
-  wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u66-b17/jdk-8u66-linux-x64.tar.gz" -O ${SRC_DIR}/${SOURCE_FILE}
+  wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/${VERSION}-b${BUILD}/${SOURCE_FILE}" -O ${SRC_DIR}/${SOURCE_FILE}
   echo "releasing lock"
   rm -v ${SRC_DIR}/${SOURCE_FILE}.lock
 elif [ -e ${SRC_DIR}/${SOURCE_FILE}.lock ] ; then
