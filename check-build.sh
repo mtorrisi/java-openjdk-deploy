@@ -2,8 +2,7 @@
 . /etc/profile.d/modules.sh
 module load ci
 cd ${NAME}-${VERSION}
-make check
-make install
+echo "making module"
 mkdir -p modules
 (
 cat <<MODULE_FILE
