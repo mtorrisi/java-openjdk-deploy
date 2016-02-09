@@ -24,9 +24,10 @@ MODULE_FILE
 mkdir -p ${LIBRARIES_MODULES}/${NAME}
 cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
-echo "Checking gsl program"
+echo "Checking java module"
 module add $NAME/$VERSION
 module list
-
+echo "which java are we using ? "
 which java
+echo "which version of java are we using ?"
 java -version
