@@ -1,7 +1,12 @@
 #!/bin/bash -e
 . /etc/profile.d/modules.sh
 module load ci
+module add jdk/${JAVA_VERSION}
 cd ${NAME}-${VERSION}
+
+#TODO -Execute test
+
+#TOD - Create module
 echo "making module"
 mkdir -p modules
 (
@@ -26,8 +31,5 @@ cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
 echo "Checking java module"
 module add $NAME/$VERSION
-module list
-echo "which java are we using ? "
-which java
-echo "which version of java are we using ?"
-java -version
+# TODO - Check if the module provide REPAST
+# 
