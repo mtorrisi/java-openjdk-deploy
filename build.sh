@@ -5,31 +5,11 @@
 
 # Build only downloads and unpacks the code to the install dir.
 . /etc/profile.d/modules.sh
-# NAME is set to jdk in the jenkins job
-# VERSION is set to
-# 8u66 7u51
-# in the jenkins job
-
-# we need to set the build number for the different versions. The build number corresponds to a specfic
-# version, so we can't just add a variable axis... since there are only two, we have a simple case here :
-
-# BUILD_NUMBER is an internal Jenkins variable, don't use it here.
-case ${VERSION} in
-  8u66 )
-    export BUILD=17
-    ;;
-  7u80 )
-    export BUILD=15
-    ;;
-  * )
-    echo "invalid version number ${VERSION}"
-    exit 2
-    ;;
-esac
 
 echo "build number is ${BUILD_NUMBER}"
 SOURCE_FILE=${NAME}-${VERSION}-linux-x64.tar.gz
 module load ci
+module add jdk/${JAVA_VERSION}
 mkdir -p ${SRC_DIR}
 echo "getting the file from Oracle"
 
@@ -52,5 +32,4 @@ mkdir -p ${WORKSPACE}/${NAME}-${VERSION}
 # the code gets unpacked
 tar xfz ${SRC_DIR}/${SOURCE_FILE} -C ${WORKSPACE}/${NAME}-${VERSION} --skip-old-files --strip-components=1
 cd ${WORKSPACE}/${NAME}-${VERSION}
-# TODO - see if Java works.
-bin/java -version
+# TODO - see if REPAST builds.
