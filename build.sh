@@ -4,12 +4,12 @@
 # of CODE-RADE here by deploying pre-packaged binary files.
 
 # Build only downloads and unpacks the code to the install dir.
-#. /etc/profile.d/modules.sh
+. /etc/profile.d/modules.sh
 
 echo "build number is ${BUILD_NUMBER}"
 SOURCE_FILE=${NAME}_${VERSION}_linux-x64.zip
-#module load ci
-#module add jdk/${JAVA_VERSION}
+module load ci
+module add jdk/${JAVA_VERSION}
 mkdir -p ${SRC_DIR}
 echo "Getting REPAST Libraries from http://grid.ct.infn.it/csgf/binaries/repast/${VERSION}"
 
