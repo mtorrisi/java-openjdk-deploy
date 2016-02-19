@@ -1,2 +1,2 @@
-# java-openjdk-deploy
-Scripts for deploying Java JDK
+# repast-deploy
+Scripts for deploying repast on CODE-RADE

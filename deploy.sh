@@ -1,20 +1,52 @@
 #!/bin/bash -e
-# deploy script for java openjdk
+# Build script for REPAST Symphony
+# The Recursive Porous Agent Simulation Toolkit (Repast) is a widely used free and open-source,
+# cross-platform, agent-based modeling and simulation toolkit.
 
 # Build only downloads and unpacks the code to the install dir.
 . /etc/profile.d/modules.sh
-SOURCE_FILE=${NAME}-${VERSION}-linux-x64.tar.gz
+SOURCE_FILE=${NAME}_${VERSION}_linux-x64.tar.gz
 
 module add deploy
 
-echo "now deploying to ${SOFT_DIR}"
+echo "[deploy.sh] - Now deploying to ${SOFT_DIR}"
 cd ${WORKSPACE}/${NAME}-${VERSION}
-echo "Java $VERSION will now go into ${SOFT_DIR}/"
+echo "[deploy.sh] -  REPAST $VERSION will now go into ${SOFT_DIR}/"
 mkdir -p ${SOFT_DIR}
-tar xfz ${SRC_DIR}/${SOURCE_FILE} -C ${SOFT_DIR} --skip-old-files --strip-components=1
+unzip ${SRC_DIR}/${SOURCE_FILE} -d ${WORKSPACE}/${NAME}-${VERSION}
 
+# REPAST specific costants
+PREFIX=repast.simphony
+PLUGINS=./plugins
 
-# TODO - see if Java works.
+# ***********************
+# Add plugins to classpath
+# ***********************
+
+export CLASSPATH=.:$PLUGINS/libs.bsf_$VERSION/lib/*:\
+$PLUGINS/libs.ext_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.batch_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.batch_$VERSION/bin:\
+$PLUGINS/$PREFIX.distributed.batch_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.distributed.batch_$VERSION/bin:\
+$PLUGINS/$PREFIX.core_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.core_$VERSION/bin:\
+$PLUGINS/$PREFIX.runtime_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.runtime_$VERSION/bin:\
+$PLUGINS/$PREFIX.data_$VERSION/bin:\
+$PLUGINS/$PREFIX.dataLoader_$VERSION/bin:\
+$PLUGINS/$PREFIX.scenario_$VERSION/bin:\
+$PLUGINS/$PREFIX.essentials_$VERSION/bin:\
+$PLUGINS/$PREFIX.groovy_$VERSION/bin:\
+$PLUGINS/$PREFIX.intergation_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.intergation_$VERSION/bin:\
+$PLUGINS/saf.core.ui_$VERSION/saf.core.v3d.jar:\
+$PLUGINS/saf.core.ui_$VERSION/lib/*:\
+
+# Execute test
+echo "[deploy.sh] - Executing test..."
+java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
+
 (
 cat <<MODULE_FILE
 #%Module1.0
@@ -25,20 +57,17 @@ puts stderr " This module does nothing but alert the user"
 puts stderr " that the [module-info name] module is not available"
 }
 module-whatis "$NAME $VERSION."
-setenv JAVA_VERSION $VERSION
-setenv JAVA_DIR                 $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
-setenv JAVA_HOME                $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
-prepend-path LD_LIBRARY_PATH    $::env(JAVA_DIR)/lib
-prepend-path PATH               $::env(JAVA_DIR)/bin
+setenv REPAST_VERSION $VERSION
+setenv REPAST_DIR                 $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
+setenv REPAST_HOME                $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
+prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
+mkdir -p ${LIBRARIES_MODULES}/${NAME}/${VERSION}
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/${VERSION}
 
-echo "Checking java module"
+echo "[deploy.sh] - Checking java module"
 module add $NAME/$VERSION
 module list
-echo "which java are we using ? "
-which java
-echo "which version of java are we using ?"
-java -version
+echo "[deploy.sh] - which java are we using ? "
+java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help

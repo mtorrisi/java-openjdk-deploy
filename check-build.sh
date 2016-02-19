@@ -4,10 +4,41 @@ module load ci
 module add jdk/${JAVA_VERSION}
 cd ${NAME}-${VERSION}
 
-#TODO -Execute test
+# REPAST specific costants
+PREFIX=repast.simphony
+PLUGINS=./plugins
 
-#TOD - Create module
-echo "making module"
+# ***********************
+# Add plugins to classpath
+# ***********************
+
+export CLASSPATH=.:$PLUGINS/libs.bsf_$VERSION/lib/*:\
+$PLUGINS/libs.ext_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.batch_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.batch_$VERSION/bin:\
+$PLUGINS/$PREFIX.distributed.batch_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.distributed.batch_$VERSION/bin:\
+$PLUGINS/$PREFIX.core_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.core_$VERSION/bin:\
+$PLUGINS/$PREFIX.runtime_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.runtime_$VERSION/bin:\
+$PLUGINS/$PREFIX.data_$VERSION/bin:\
+$PLUGINS/$PREFIX.dataLoader_$VERSION/bin:\
+$PLUGINS/$PREFIX.scenario_$VERSION/bin:\
+$PLUGINS/$PREFIX.essentials_$VERSION/bin:\
+$PLUGINS/$PREFIX.groovy_$VERSION/bin:\
+$PLUGINS/$PREFIX.intergation_$VERSION/lib/*:\
+$PLUGINS/$PREFIX.intergation_$VERSION/bin:\
+$PLUGINS/saf.core.ui_$VERSION/saf.core.v3d.jar:\
+$PLUGINS/saf.core.ui_$VERSION/lib/*:\
+
+# Execute test
+echo "[check-build.sh] - Executing test..."
+java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
+
+
+# Create module
+echo "[check-build.sh] - Making module"
 mkdir -p modules
 (
 cat <<MODULE_FILE
@@ -19,17 +50,17 @@ puts stderr " This module does nothing but alert the user"
 puts stderr " that the [module-info name] module is not available"
 }
 module-whatis "$NAME $VERSION."
-setenv JAVA_VERSION $VERSION
-setenv JAVA_DIR                 /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
-setenv JAVA_HOME                /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
-prepend-path LD_LIBRARY_PATH    $::env(JAVA_DIR)/lib
-prepend-path PATH               $::env(JAVA_DIR)/bin
+setenv REPAST_VERSION $VERSION
+setenv REPAST_DIR                 /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
+setenv REPAST_HOME                /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
+prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
+mkdir -p ${LIBRARIES_MODULES}/${NAME}/${VERSION}
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/${VERSION}
 
-echo "Checking java module"
+echo "[check-build.sh] - Checking REPAST module"
 module add $NAME/$VERSION
-# TODO - Check if the module provide REPAST
-# 
+
+# Check if the module provide REPAST
+java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
