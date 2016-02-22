@@ -13,11 +13,11 @@ echo "[deploy.sh] - Now deploying to ${SOFT_DIR}"
 cd ${WORKSPACE}/${NAME}-${VERSION}
 echo "[deploy.sh] -  REPAST $VERSION will now go into ${SOFT_DIR}/"
 mkdir -p ${SOFT_DIR}
-unzip -u ${SRC_DIR}/${SOURCE_FILE} -d ${WORKSPACE}/${NAME}-${VERSION}
+unzip -u ${SRC_DIR}/${SOURCE_FILE} -d ${SOFT_DIR}
 
 # REPAST specific costants
 PREFIX=repast.simphony
-PLUGINS=./plugins
+PLUGINS=${SOFT_DIR}/plugins
 
 # ***********************
 # Add plugins to classpath
