@@ -5,7 +5,7 @@
 
 # Build only downloads and unpacks the code to the install dir.
 . /etc/profile.d/modules.sh
-SOURCE_FILE=${NAME}_${VERSION}_linux-x64.tar.gz
+SOURCE_FILE=${NAME}_${VERSION}_linux-x64.zip
 
 module add deploy
 
