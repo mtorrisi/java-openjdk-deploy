@@ -47,6 +47,9 @@ $PLUGINS/saf.core.ui_$VERSION/lib/*:\
 echo "[deploy.sh] - Executing test..."
 java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
 
+# clean out previous modules
+rm -rf modules/ ${LIBRARIES_MODULES}/${NAME}
+
 (
 cat <<MODULE_FILE
 #%Module1.0
@@ -63,11 +66,13 @@ setenv REPAST_HOME                $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::e
 prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}/${VERSION}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/${VERSION}
+mkdir -p ${LIBRARIES_MODULES}/${NAME}/
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/
 
 echo "[deploy.sh] - Checking java module"
-module add $NAME/$VERSION
+module avail ${NAME}
+echo "Trying to add ${NAME} module"
+module add ${NAME}/${VERSION}
 module list
 echo "[deploy.sh] - which java are we using ? "
 java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
