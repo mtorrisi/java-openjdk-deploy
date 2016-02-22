@@ -63,8 +63,8 @@ setenv REPAST_HOME                $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::e
 prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}/${VERSION}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/${VERSION}
+mkdir -p ${LIBRARIES_MODULES}/${NAME}
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
 echo "[deploy.sh] - Checking java module"
 module add $NAME/$VERSION
