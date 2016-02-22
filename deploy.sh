@@ -47,6 +47,9 @@ $PLUGINS/saf.core.ui_$VERSION/lib/*:\
 echo "[deploy.sh] - Executing test..."
 java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
 
+# clean out previous modules
+rm -rf modules/ ${LIBRARIES_MODULES}/${NAME}
+mkdir -p modules
 (
 cat <<MODULE_FILE
 #%Module1.0

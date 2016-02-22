@@ -41,7 +41,7 @@ rm -rf modules ${LIBRARIES_MODULES}/${NAME}
 
 # Create module
 echo "[check-build.sh] - Making module"
-  mkdir -p modules
+mkdir -p modules
 (
 cat <<MODULE_FILE
 #%Module1.0
