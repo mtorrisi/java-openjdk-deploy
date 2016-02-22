@@ -39,7 +39,9 @@ java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
 
 # Create module
 echo "[check-build.sh] - Making module"
-mkdir -p modules
+if [ ! ! -d module  ]; then
+  mkdir -p modules
+fi
 (
 cat <<MODULE_FILE
 #%Module1.0
