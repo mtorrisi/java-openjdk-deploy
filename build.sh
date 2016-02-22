@@ -30,7 +30,7 @@ fi
 mkdir -p ${WORKSPACE}/${NAME}-${VERSION}
 # the name of the tar upack dir is some wierd combination of underscores and numbers, so we'll just redefined where
 # the code gets unpacked
-unzip -n ${SRC_DIR}/${SOURCE_FILE} -d ${WORKSPACE}/${NAME}-${VERSION}
+unzip -u ${SRC_DIR}/${SOURCE_FILE} -d ${WORKSPACE}/${NAME}-${VERSION}
 cd ${WORKSPACE}/${NAME}-${VERSION}
 # Check if REPAST libs are available.
 echo "[build.sh] - Listing '${WORKSPACE}/${NAME}-${VERSION}' folder ..."

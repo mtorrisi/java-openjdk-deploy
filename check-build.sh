@@ -39,7 +39,9 @@ java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
 
 # Create module
 echo "[check-build.sh] - Making module"
-mkdir -p modules
+if [ ! ! -d module  ]; then
+  mkdir -p modules
+fi
 (
 cat <<MODULE_FILE
 #%Module1.0
@@ -56,8 +58,8 @@ setenv REPAST_HOME                /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/
 prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}/${VERSION}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/${VERSION}
+mkdir -p ${LIBRARIES_MODULES}/${NAME}
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
 echo "[check-build.sh] - Checking REPAST module"
 module add $NAME/$VERSION
