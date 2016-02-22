@@ -37,7 +37,7 @@ echo "[check-build.sh] - Executing test..."
 java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
 
 # clean out previous module
-rm -rf modules ${LIBRARIES_DIR}/${NAME}
+rm -rf modules ${LIBRARIES_MODULES}/${NAME}
 
 # Create module
 echo "[check-build.sh] - Making module"
