@@ -36,12 +36,12 @@ $PLUGINS/saf.core.ui_$VERSION/lib/*:\
 echo "[check-build.sh] - Executing test..."
 java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
 
+# clean out previous module
+rm -rf modules ${LIBRARIES_MODULES}/${NAME}
 
 # Create module
 echo "[check-build.sh] - Making module"
-if [ ! ! -d module  ]; then
   mkdir -p modules
-fi
 (
 cat <<MODULE_FILE
 #%Module1.0
