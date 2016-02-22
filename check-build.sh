@@ -59,7 +59,7 @@ prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
 mkdir -p ${LIBRARIES_MODULES}/${NAME}
-if [ ! -f ${LIBRARIES_MODULES}/${NAME} ]; then
+if [ ! -e ${LIBRARIES_MODULES}/${NAME} ]; then
   cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 fi
 
