@@ -65,6 +65,7 @@ cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
 echo "[check-build.sh] - Checking REPAST module"
 module add $NAME/$VERSION
+module list
 
-# Check if the module provide REPAST
-java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
+echo "[check-build.sh] - Test REPAST using InfectionModel"
+./simulation.sh

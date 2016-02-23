@@ -74,5 +74,6 @@ cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 echo "[deploy.sh] - Checking REPAST module"
 module add $NAME/$VERSION
 module list
-echo "[deploy.sh] - which REPAST are we using ? "
-java -cp $CLASSPATH repast.simphony.runtime.RepastBatchMain -help
+
+echo "[deploy.sh] - Test REPAST using InfectionModel"
+./simulation.sh
