@@ -69,7 +69,10 @@ prepend-path LD_LIBRARY_PATH      $::env(REPAST_CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
 mkdir -p ${LIBRARIES_MODULES}/${NAME}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
+
+if [! -e ${LIBRARIES_MODULES}/${NAME}/${VERSION}] ; then
+  cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
+fi
 
 echo "[deploy.sh] - Checking REPAST module"
 module add $NAME/$VERSION
