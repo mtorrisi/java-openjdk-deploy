@@ -11,10 +11,10 @@ echo "[simulation.sh] - Creating batch parameters file...."
 cat <<EOF >batch_params.xml
 <?xml version="1.0"?>
 <sweep runs="1">
-        <parameter name="end_time" type="constant" constant_type="int" value="20"/>
-        <parameter name="healthy_count" type="constant" constant_type="int" value="0"/>
-        <parameter name="infected_count" type="constant" constant_type="int" value="20"/>
-        <parameter name="susceptible_count" type="constant" constant_type="int" value="1500"/>
+        <parameter name="end_time" type="constant" constant_type="int" value="$1"/>
+        <parameter name="healthy_count" type="constant" constant_type="int" value="$2"/>
+        <parameter name="infected_count" type="constant" constant_type="int" value="$3"/>
+        <parameter name="susceptible_count" type="constant" constant_type="int" value="$4"/>
 </sweep>
 EOF
 
@@ -33,27 +33,27 @@ MODEL_FOLDER=${WORKSPACE}/$MODEL_NAME
 
 CP=$REPAST_CLASSPATH:$MODEL_FOLDER/bin
 
-if [ ! -d "${WORKSPACE}/output" ]; then
-  mkdir -p ${WORKSPACE}/output
+if [ ! -d output ]; then
+  mkdir -p output
 fi
 
 # ***********************
 # Run
 # ***********************
 echo "[simulation.sh] - Simulation started at: '" $(date) "'"
-echo "java -cp $CP repast.simphony.runtime.RepastBatchMain -params batch_params.xml $MODEL_FOLDER/$MODEL_NAME.rs > ${WORKSPACE}/stdout 2> ${WORKSPACE}/stderr"
-java -cp $CP repast.simphony.runtime.RepastBatchMain -params "batch_params.xml" "$MODEL_FOLDER/$MODEL_NAME.rs" > "${WORKSPACE}/stdout" 2> "${WORKSPACE}/stderr"
+echo "java -cp $CP repast.simphony.runtime.RepastBatchMain -params batch_params.xml $MODEL_FOLDER/$MODEL_NAME.rs > output/stdout 2> output/stderr"
+java -cp $CP repast.simphony.runtime.RepastBatchMain -params "batch_params.xml" "$MODEL_FOLDER/$MODEL_NAME.rs" > "output/stdout" 2> "output/stderr"
 
 echo "[simulation.sh] - Simulation finished at: '" $(date) "'"
 
 echo "[simulation.sh] Simulation output"
 echo "###################[ OUTPUTS ]#########################"
 echo
-echo "${WORKSPACE}/output/output.txt"
-cat ${WORKSPACE}/output/output.txt
+echo "output/output.txt"
+cat output/output.txt
 echo
-echo "${WORKSPACE}/stderr"
-cat ${WORKSPACE}/stderr
+echo "stderr"
+cat output/stderr
 echo
 echo "######################################################"
 
