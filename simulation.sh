@@ -25,7 +25,7 @@ echo "[simulation.sh] - batch_params.xml created"
 # ***********************
 
 MODEL_NAME=InfectionModel
-MODEL_FOLDER=./$MODEL_NAME
+MODEL_FOLDER=${WORKSPACE}/$MODEL_NAME
 
 # ***********************
 # Add InfectionModel to classpath
@@ -33,8 +33,8 @@ MODEL_FOLDER=./$MODEL_NAME
 
 CP=$REPAST_CLASSPATH:$MODEL_FOLDER/bin
 
-if [ ! -d "output" ]; then
-        mkdir output
+if [ ! -d "${WORKSPACE}/output" ]; then
+  mkdir -p ${WORKSPACE}/output
 fi
 
 # ***********************
