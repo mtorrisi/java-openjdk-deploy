@@ -68,4 +68,4 @@ module add $NAME/$VERSION
 module list
 
 echo "[check-build.sh] - Test REPAST using InfectionModel"
-./simulation.sh
+${SRC_DIR}/simulation.sh

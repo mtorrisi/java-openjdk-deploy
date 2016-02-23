@@ -33,6 +33,10 @@ MODEL_FOLDER=./$MODEL_NAME
 
 CP=$REPAST_CLASSPATH:$MODEL_FOLDER/bin
 
+if [ ! -d "output" ]; then
+        mkdir output
+fi
+
 # ***********************
 # Run
 # ***********************

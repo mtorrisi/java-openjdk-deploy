@@ -76,4 +76,4 @@ module add $NAME/$VERSION
 module list
 
 echo "[deploy.sh] - Test REPAST using InfectionModel"
-./simulation.sh
+${SRC_DIR}/simulation.sh
