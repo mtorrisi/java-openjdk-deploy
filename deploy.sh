@@ -77,4 +77,4 @@ module add $NAME/$VERSION
 module list
 
 echo "[deploy.sh] - Test REPAST using InfectionModel"
-${WORKSPACE}/simulation.sh 20 0 10 2000
+${WORKSPACE}/simulation.sh
