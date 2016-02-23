@@ -11,13 +11,14 @@ module add deploy
 
 echo "[deploy.sh] - Now deploying to ${SOFT_DIR}"
 cd ${WORKSPACE}/${NAME}-${VERSION}
-echo "[deploy.sh] -  REPAST $VERSION will now go into ${SOFT_DIR}/"
+echo "[deploy.sh] - REPAST $VERSION will now go into ${SOFT_DIR}/"
 mkdir -p ${SOFT_DIR}
-unzip ${SRC_DIR}/${SOURCE_FILE} -d ${WORKSPACE}/${NAME}-${VERSION}
+cp -r ${WORKSPACE}/${NAME}-${VERSION} ${SOFT_DIR}
+#unzip -u ${SRC_DIR}/${SOURCE_FILE} -d ${SOFT_DIR}
 
 # REPAST specific costants
 PREFIX=repast.simphony
-PLUGINS=./plugins
+PLUGINS=${SOFT_DIR}/plugins
 
 # ***********************
 # Add plugins to classpath
@@ -60,14 +61,15 @@ puts stderr " This module does nothing but alert the user"
 puts stderr " that the [module-info name] module is not available"
 }
 module-whatis "$NAME $VERSION."
+setenv REPAST_CLASSPATH $CLASSPATH
 setenv REPAST_VERSION $VERSION
 setenv REPAST_DIR                 $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
 setenv REPAST_HOME                $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
-prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
+prepend-path LD_LIBRARY_PATH      $::env(REPAST_CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}/
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/
+mkdir -p ${LIBRARIES_MODULES}/${NAME}
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
 echo "[deploy.sh] - Checking REPAST module"
 module add $NAME/$VERSION

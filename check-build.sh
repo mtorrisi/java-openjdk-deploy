@@ -52,16 +52,16 @@ puts stderr " This module does nothing but alert the user"
 puts stderr " that the [module-info name] module is not available"
 }
 module-whatis "$NAME $VERSION."
+setenv REPAST_CLASSPATH $CLASSPATH
 setenv REPAST_VERSION $VERSION
 setenv REPAST_DIR                 /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
 setenv REPAST_HOME                /apprepo/$::env(SITE)/$::env(OS)/$::env(ARCH)/$NAME/$VERSION
-prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
+prepend-path LD_LIBRARY_PATH      $::env(REPAST_CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
 mkdir -p ${LIBRARIES_MODULES}/${NAME}
-if [ ! -e ${LIBRARIES_MODULES}/${NAME} ]; then
-  cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
-fi
+
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
 
 echo "[check-build.sh] - Checking REPAST module"
 module add $NAME/$VERSION
