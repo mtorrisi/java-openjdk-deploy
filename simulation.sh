@@ -40,11 +40,11 @@ fi
 # ***********************
 # Run
 # ***********************
-echo "[simulation.sh] Simulation started at: '" $(date) "'"
+echo "[simulation.sh] - Simulation started at: '" $(date) "'"
+echo "java -cp $CP repast.simphony.runtime.RepastBatchMain -params batch_params.xml $MODEL_FOLDER/$MODEL_NAME.rs > ${WORKSPACE}/stdout 2> ${WORKSPACE}/stderr"
+java -cp $CP repast.simphony.runtime.RepastBatchMain -params "batch_params.xml" "$MODEL_FOLDER/$MODEL_NAME.rs" > "${WORKSPACE}/stdout" 2> "${WORKSPACE}/stderr"
 
-java -cp $CP repast.simphony.runtime.RepastBatchMain -params "batch_params.xml" "$MODEL_FOLDER/$MODEL_NAME.rs" > ${WORKSPACE}/stdout 2> ${WORKSPACE}/stderr
-
-echo "[simulation.sh] Simulation finished at: '" $(date) "'"
+echo "[simulation.sh] - Simulation finished at: '" $(date) "'"
 
 echo "[simulation.sh] Simulation output"
 echo "###################[ OUTPUTS ]#########################"
