@@ -4,7 +4,7 @@ module load ci
 module add jdk/${JAVA_VERSION}
 cd ${NAME}-${VERSION}
 
-# REPAST specific costants.
+# REPAST specific costants
 PREFIX=repast.simphony
 PLUGINS=./plugins
 

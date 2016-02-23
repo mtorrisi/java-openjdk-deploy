@@ -11,14 +11,13 @@ module add deploy
 
 echo "[deploy.sh] - Now deploying to ${SOFT_DIR}"
 cd ${WORKSPACE}/${NAME}-${VERSION}
-echo "[deploy.sh] - REPAST $VERSION will now go into ${SOFT_DIR}/"
+echo "[deploy.sh] -  REPAST $VERSION will now go into ${SOFT_DIR}/"
 mkdir -p ${SOFT_DIR}
-cp -r ${WORKSPACE}/${NAME}-${VERSION} ${SOFT_DIR}
-#unzip -u ${SRC_DIR}/${SOURCE_FILE} -d ${SOFT_DIR}
+unzip ${SRC_DIR}/${SOURCE_FILE} -d ${WORKSPACE}/${NAME}-${VERSION}
 
 # REPAST specific costants
 PREFIX=repast.simphony
-PLUGINS=${SOFT_DIR}/plugins
+PLUGINS=./plugins
 
 # ***********************
 # Add plugins to classpath
@@ -67,8 +66,8 @@ setenv REPAST_HOME                $::env(CVMFS_DIR)/$::env(SITE)/$::env(OS)/$::e
 prepend-path LD_LIBRARY_PATH    $::env(CLASSPATH)
 MODULE_FILE
 ) > modules/${VERSION}
-mkdir -p ${LIBRARIES_MODULES}/${NAME}
-cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}
+mkdir -p ${LIBRARIES_MODULES}/${NAME}/
+cp modules/${VERSION} ${LIBRARIES_MODULES}/${NAME}/
 
 echo "[deploy.sh] - Checking REPAST module"
 module add $NAME/$VERSION
